@@ -46,6 +46,9 @@ const renderTable = (data) => {
                     <td>${getStatusBadge(item.status)}</td>
                     <td>${item.updatedAt}</td>
                     <td class="actions">
+                        <button class="btn-icon btn-add-row" title="Thêm mới vào bảng" data-id="${item.id}">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
                         <button class="btn-icon btn-paste-content" title="Dán nội dung" data-id="${item.id}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
                         </button>
@@ -66,6 +69,14 @@ const renderTable = (data) => {
 
 // --- 3.5 GẮN EVENT LISTENER CHO CÁC NÚT ---
 const attachButtonListeners = () => {
+  // Nút Add từ action
+  document.querySelectorAll(".btn-add-row").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = parseInt(btn.getAttribute("data-id"));
+      addRowFromAction(id);
+    });
+  });
+
   // Nút Edit
   document.querySelectorAll(".btn-edit").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -116,6 +127,81 @@ const attachModalListeners = () => {
   if (contentSaveBtn) contentSaveBtn.addEventListener("click", saveContent);
 };
 
+const createNewItem = () => {
+  const nextId = mockData.reduce((max, item) => Math.max(max, item.id), 0) + 1;
+  const today = new Date();
+  const pad = (value) => String(value).padStart(2, "0");
+  const createdAt = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+  const updatedAt = `${pad(today.getDate())}/${pad(today.getMonth() + 1)}/${today.getFullYear()}`;
+
+  return {
+    id: nextId,
+    projectId: "project1",
+    title: `Bản ghi thử ${nextId}`,
+    metaTitle: `Test thêm mới ${nextId}`,
+    description: "Dữ liệu mới được thêm từ nút Thêm mới trong Action.",
+    hasContent: false,
+    createdAt,
+    status: "new",
+    updatedAt,
+  };
+};
+
+function addNewItem() {
+  mockData.push(createNewItem());
+  renderTable(mockData);
+}
+
+let activeAddSourceId = null;
+
+function resetAddFormFields() {
+  document.getElementById("add-title").value = "";
+  document.getElementById("add-metaTitle").value = "";
+  document.getElementById("add-description").value = "";
+  document.getElementById("add-status").value = "new";
+  document.getElementById("add-project").value = "project1";
+}
+
+function openAddForm(sourceId) {
+  activeAddSourceId = sourceId;
+  resetAddFormFields();
+  document.getElementById("addRowForm").classList.remove("hidden");
+  document
+    .getElementById("addRowForm")
+    .scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function hideAddForm() {
+  activeAddSourceId = null;
+  document.getElementById("addRowForm").classList.add("hidden");
+  resetAddFormFields();
+}
+
+function saveAddForm() {
+  const title = document.getElementById("add-title").value.trim();
+  if (!title) {
+    alert("Vui lòng nhập tiêu đề.");
+    return;
+  }
+
+  const newItem = createNewItem();
+  newItem.projectId = document.getElementById("add-project").value;
+  newItem.title = title;
+  newItem.metaTitle =
+    document.getElementById("add-metaTitle").value.trim() || title;
+  newItem.description = document.getElementById("add-description").value.trim();
+  newItem.status = document.getElementById("add-status").value;
+  newItem.hasContent = false;
+
+  mockData.push(newItem);
+  hideAddForm();
+  renderTable(mockData);
+}
+
+function addRowFromAction(sourceId) {
+  openAddForm(sourceId);
+}
+
 // Render dữ liệu mặc định khi vừa tải trang
 renderTable(mockData);
 
@@ -127,6 +213,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const fetchBtn = document.querySelector(".btn-primary[type='button']");
   if (fetchBtn) {
     fetchBtn.addEventListener("click", fetchContent);
+  }
+
+  const saveAddBtn = document.getElementById("save-add-row");
+  if (saveAddBtn) {
+    saveAddBtn.addEventListener("click", saveAddForm);
+  }
+
+  const cancelAddBtn = document.getElementById("cancel-add-row");
+  if (cancelAddBtn) {
+    cancelAddBtn.addEventListener("click", hideAddForm);
+  }
+
+  const closeAddFormBtn = document.getElementById("close-add-form");
+  if (closeAddFormBtn) {
+    closeAddFormBtn.addEventListener("click", hideAddForm);
   }
 });
 

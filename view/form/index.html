@@ -49,7 +49,7 @@
                 <label for="status">Trạng thái</label>
                 <div class="custom-select-wrapper" id="custom-status-wrapper">
                     <div class="custom-select" id="custom-status-display">
-                        <span class="status-dot default"></span> Chọn trạng thái
+                        <span class="status-dot default"></span> trạng thái
                     </div>
                     <div class="custom-options">
                         <div class="custom-option" data-value="new">
@@ -100,6 +100,49 @@
                     <!-- Javascript sẽ tự động thêm dữ liệu vào đây -->
                 </tbody>
             </table>
+
+            <div id="addRowForm" class="inline-form hidden">
+                <div class="inline-form-header">
+                    <h3>Thêm dữ liệu mới</h3>
+                    <span id="close-add-form" class="close-btn">&times;</span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="add-title">Tiêu đề</label>
+                        <input type="text" id="add-title" placeholder="Nhập tiêu đề">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-metaTitle">Meta Title</label>
+                        <input type="text" id="add-metaTitle" placeholder="Nhập meta title">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="add-description">Description</label>
+                    <textarea id="add-description" rows="3" placeholder="Nhập mô tả"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="add-status">Trạng thái</label>
+                        <select id="add-status">
+                            <option value="new">New</option>
+                            <option value="partial">Partial</option>
+                            <option value="done">Done</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-project">Dự án</label>
+                        <select id="add-project">
+                            <option value="project1">Dự án A</option>
+                            <option value="project2">Dự án B</option>
+                            <option value="project3">Dự án C</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="inline-form-actions">
+                    <button class="btn-cancel" type="button" id="cancel-add-row">Hủy</button>
+                    <button class="btn-primary" type="button" id="save-add-row">Thêm</button>
+                </div>
+            </div>
         </div>
 
     </div>
