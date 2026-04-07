@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giao diện Tìm kiếm Dự án</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <div class="filter-container">
+            <!-- Lọc Dự án -->
+            <div class="filter-group">
+                <label for="project">Dự án</label>
+                <div class="select-wrapper">
+                    <select id="project" name="project">
+                        <option value="">Chọn dự án</option>
+                        <option value="project1">Dự án A</option>
+                        <option value="project2">Dự án B</option>
+                        <option value="project3">Dự án C</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Nhập dữ liệu -->
+            <div class="filter-group">
+                <label for="searchData">Nhập dữ liệu</label>
+                <input type="text" id="searchData" placeholder="Nhập dữ liệu...">
+            </div>
+
+            <!-- Ngày tạo (Từ) -->
+            <div class="filter-group date-group">
+                <label for="dateFrom">Từ ngày</label>
+                <input type="date" id="dateFrom">
+            </div>
+
+            <!-- Ngày tạo (Đến) -->
+            <div class="filter-group date-group">
+                <label for="dateTo">Đến ngày</label>
+                <input type="date" id="dateTo">
+            </div>
+
+            <!-- Trạng thái -->
+            <div class="filter-group">
+                <label for="status">Trạng thái</label>
+                <div class="custom-select-wrapper" id="custom-status-wrapper">
+                    <div class="custom-select" id="custom-status-display">
+                        <span class="status-dot default"></span> Chọn trạng thái
+                    </div>
+                    <div class="custom-options">
+                        <div class="custom-option" data-value="new">
+                            <span class="status-dot grey"></span> New
+                        </div>
+                        <div class="custom-option" data-value="partial">
+                            <span class="status-dot yellow"></span> Partial
+                        </div>
+                        <div class="custom-option" data-value="done">
+                            <span class="status-dot green"></span> Done
+                        </div>
+                    </div>
+                </div>
+                <!-- Hidden input to store value if submitting form -->
+                <input type="hidden" id="status" name="status" value="">
+            </div>
+
+            <!-- Nút Lấy nội dung -->
+            <div class="filter-actions">
+                <button class="btn-primary" type="button" onclick="fetchContent()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Lấy nội dung
+                </button>
+            </div>
+        </div>
+
+        <!-- Bảng dữ liệu -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tiêu đề</th>
+                        <th>Meta Title</th>
+                        <th>Description</th>
+                        <th class="text-center">Content</th>
+                        <th>Ngày tạo</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày cập nhật</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Javascript sẽ tự động thêm dữ liệu vào đây -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Modal Chỉnh sửa -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Chỉnh sửa dữ liệu</h2>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-id">
+                <div class="form-group">
+                    <label>Tiêu đề</label>
+                    <input type="text" id="edit-title">
+                </div>
+                <div class="form-group">
+                    <label>Meta Title</label>
+                    <input type="text" id="edit-metaTitle">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="edit-description" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Trạng thái</label>
+                        <select id="edit-status">
+                            <option value="new">New</option>
+                            <option value="partial">Partial</option>
+                            <option value="done">Done</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal()">Hủy</button>
+                <button class="btn-primary" onclick="saveEdit()">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Dán nội dung -->
+    <div id="contentModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Dán Nội dung</h2>
+                <span class="close-btn" onclick="closeContentModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="content-id">
+                <div class="form-group">
+                    <textarea id="paste-content" rows="8"
+                        placeholder="Dán toàn bộ nội dung của dự án vào đây..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeContentModal()">Hủy</button>
+                <button class="btn-primary" onclick="saveContent()">Lưu nội dung</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="index.js"></script>
+</body>
+
+</html>
