@@ -297,7 +297,6 @@ tbody tr:last-child td {
 
 /* Utilities */
 .text-center { text-align: center !important; }
-.text-right { text-align: right !important; }
 .font-medium { font-weight: 500; color: #111827; }
 .truncate {
     max-width: 250px;
@@ -490,10 +489,4 @@ tbody tr:last-child td {
 }
 .btn-cancel:hover {
     background-color: var(--bg);
-}
-
-/* Error State */
-.input-error {
-    border-color: #EF4444 !important;
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
 }
