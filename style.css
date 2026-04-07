@@ -1,16 +1,20 @@
 :root {
-    --primary: #4F46E5; /* Indigo 600 */
+    --primary: #4F46E5;
+    /* Indigo 600 */
     --primary-hover: #4338CA;
     --bg: #F9FAFB;
     --card-bg: #FFFFFF;
     --text-main: #111827;
     --text-muted: #6B7280;
     --border: #E5E7EB;
-    
+
     /* Status Colors */
-    --status-new: #9CA3AF;     /* Gray 400 */
-    --status-partial: #FBBF24; /* Amber 400 */
-    --status-done: #10B981;    /* Emerald 500 */
+    --status-new: #9CA3AF;
+    /* Gray 400 */
+    --status-partial: #FBBF24;
+    /* Amber 400 */
+    --status-done: #10B981;
+    /* Emerald 500 */
 }
 
 * {
@@ -44,7 +48,7 @@ body {
     background-color: var(--card-bg);
     padding: 24px;
     border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0,0,0,0.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02);
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -68,7 +72,9 @@ body {
 }
 
 /* Inputs, Selects */
-input[type="text"], input[type="date"], select {
+input[type="text"],
+input[type="date"],
+select {
     width: 100%;
     padding: 10px 14px;
     border: 1px solid var(--border);
@@ -82,7 +88,9 @@ input[type="text"], input[type="date"], select {
     cursor: pointer;
 }
 
-input[type="text"]:focus, input[type="date"]:focus, select:focus {
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
@@ -119,8 +127,10 @@ select {
 }
 
 .custom-select {
-    width: 100%;
-    padding: 10px 14px;
+    height: 42px;
+    /* giống input + button */
+    padding: 0 14px;
+    /* bỏ padding top/bottom */
     border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 0.95rem;
@@ -129,7 +139,7 @@ select {
     gap: 10px;
     cursor: pointer;
     background: #fff;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
 }
 
 .custom-select::after {
@@ -141,8 +151,7 @@ select {
 
 .custom-select-wrapper.active .custom-select {
     border-color: var(--primary);
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 .custom-options {
@@ -167,8 +176,15 @@ select {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .custom-option {
@@ -193,10 +209,25 @@ select {
     flex-shrink: 0;
 }
 
-.status-dot.default { background-color: transparent; border: 1px solid var(--border); }
-.status-dot.grey { background-color: var(--status-new); box-shadow: 0 0 8px rgba(156, 163, 175, 0.4); }
-.status-dot.yellow { background-color: var(--status-partial); box-shadow: 0 0 8px rgba(251, 191, 36, 0.4); }
-.status-dot.green { background-color: var(--status-done); box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+.status-dot.default {
+    background-color: transparent;
+    border: 1px solid var(--border);
+}
+
+.status-dot.grey {
+    background-color: var(--status-new);
+    box-shadow: 0 0 8px rgba(156, 163, 175, 0.4);
+}
+
+.status-dot.yellow {
+    background-color: var(--status-partial);
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+}
+
+.status-dot.green {
+    background-color: var(--status-done);
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
 
 /* Button */
 .filter-actions {
@@ -217,7 +248,8 @@ select {
     align-items: center;
     gap: 8px;
     transition: all 0.2s;
-    height: 42px; /* matches inputs */
+    height: 42px;
+    /* matches inputs */
 }
 
 .btn-primary:hover {
@@ -236,9 +268,11 @@ select {
         flex-direction: column;
         align-items: stretch;
     }
+
     .filter-actions {
         margin-top: 10px;
     }
+
     .btn-primary {
         width: 100%;
         justify-content: center;
@@ -249,7 +283,7 @@ select {
 .table-container {
     background-color: var(--card-bg);
     border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0,0,0,0.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02);
     overflow-x: auto;
     width: 100%;
 }
@@ -262,17 +296,16 @@ table {
 }
 
 thead {
-    background-color: #F8FAFC;
-    border-bottom: 1px solid var(--border);
+    background: linear-gradient(to right, #F9FAFB, #F3F4F6);
 }
 
 th {
-    padding: 16px 20px;
-    font-size: 0.85rem;
+    padding: 14px 20px;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
 }
 
 td {
@@ -284,11 +317,12 @@ td {
 }
 
 tbody tr {
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
 }
 
 tbody tr:hover {
     background-color: #F9FAFB;
+    transform: scale(1.002);
 }
 
 tbody tr:last-child td {
@@ -296,8 +330,15 @@ tbody tr:last-child td {
 }
 
 /* Utilities */
-.text-center { text-align: center !important; }
-.font-medium { font-weight: 500; color: #111827; }
+.text-center {
+    text-align: center !important;
+}
+
+.font-medium {
+    font-weight: 500;
+    color: #111827;
+}
+
 .truncate {
     max-width: 250px;
     white-space: nowrap;
@@ -313,10 +354,16 @@ tbody tr:last-child td {
     display: inline-block;
 }
 
+table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
 .icon-error {
     width: 20px;
     height: 20px;
-    color: #EF4444; /* Red 500 */
+    color: #EF4444;
+    /* Red 500 */
     display: inline-block;
 }
 
@@ -330,9 +377,20 @@ tbody tr:last-child td {
     align-items: center;
 }
 
-.badge-new { background-color: #F3F4F6; color: #4B5563; }
-.badge-partial { background-color: #FEF3C7; color: #D97706; }
-.badge-done { background-color: #D1FAE5; color: #059669; }
+.badge-new {
+    background-color: #F3F4F6;
+    color: #4B5563;
+}
+
+.badge-partial {
+    background-color: #FEF3C7;
+    color: #D97706;
+}
+
+.badge-done {
+    background-color: #D1FAE5;
+    color: #059669;
+}
 
 /* Action Buttons */
 .actions {
@@ -378,7 +436,7 @@ tbody tr:last-child td {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     align-items: center;
     justify-content: center;
 }
@@ -416,6 +474,7 @@ tbody tr:last-child td {
     color: var(--text-muted);
     transition: color 0.15s;
 }
+
 .close-btn:hover {
     color: var(--text-main);
 }
@@ -441,7 +500,8 @@ tbody tr:last-child td {
     color: var(--text-main);
 }
 
-.form-group textarea, .form-group input {
+.form-group textarea,
+.form-group input {
     width: 100%;
     padding: 10px 14px;
     border: 1px solid var(--border);
@@ -456,7 +516,8 @@ tbody tr:last-child td {
     resize: vertical;
 }
 
-.form-group textarea:focus, .form-group input:focus {
+.form-group textarea:focus,
+.form-group input:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
@@ -465,6 +526,7 @@ tbody tr:last-child td {
     display: flex;
     gap: 16px;
 }
+
 .form-row .form-group {
     flex: 1;
 }
@@ -487,6 +549,7 @@ tbody tr:last-child td {
     cursor: pointer;
     transition: all 0.2s;
 }
+
 .btn-cancel:hover {
     background-color: var(--bg);
 }
