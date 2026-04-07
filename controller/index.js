@@ -46,23 +46,89 @@ const renderTable = (data) => {
                     <td>${getStatusBadge(item.status)}</td>
                     <td>${item.updatedAt}</td>
                     <td class="actions">
-                        <button class="btn-icon" title="Dán nội dung" onclick="openContentModal(${item.id})">
+                        <button class="btn-icon btn-paste-content" title="Dán nội dung" data-id="${item.id}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
                         </button>
-                        <button class="btn-icon" title="Chỉnh sửa" onclick="openModal(${item.id})">
+                        <button class="btn-icon btn-edit" title="Chỉnh sửa" data-id="${item.id}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                         </button>
-                        <button class="btn-icon text-danger" title="Xóa" onclick="deleteItem(${item.id})">
+                        <button class="btn-icon text-danger btn-delete" title="Xóa" data-id="${item.id}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                         </button>
                     </td>
                 `;
     tbody.appendChild(tr);
   });
+
+  // Gắn event listener cho các nút sau khi render xong
+  attachButtonListeners();
+};
+
+// --- 3.5 GẮN EVENT LISTENER CHO CÁC NÚT ---
+const attachButtonListeners = () => {
+  // Nút Edit
+  document.querySelectorAll(".btn-edit").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = parseInt(btn.getAttribute("data-id"));
+      openModal(id);
+    });
+  });
+
+  // Nút Delete
+  document.querySelectorAll(".btn-delete").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = parseInt(btn.getAttribute("data-id"));
+      deleteItem(id);
+    });
+  });
+
+  // Nút Paste Content
+  document.querySelectorAll(".btn-paste-content").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = parseInt(btn.getAttribute("data-id"));
+      openContentModal(id);
+    });
+  });
+};
+
+// --- Gắn event listener cho các phần tử modal ---
+const attachModalListeners = () => {
+  // Modal Chỉnh sửa
+  const editModal = document.getElementById("editModal");
+  const editCloseBtn = editModal.querySelector(".close-btn");
+  const editCancelBtn = editModal.querySelector(".btn-cancel");
+  const editSaveBtn = editModal.querySelectorAll(".btn-primary")[0]; // Nút lưu trong modal edit
+
+  if (editCloseBtn) editCloseBtn.addEventListener("click", closeModal);
+  if (editCancelBtn) editCancelBtn.addEventListener("click", closeModal);
+  if (editSaveBtn) editSaveBtn.addEventListener("click", saveEdit);
+
+  // Modal Dán nội dung
+  const contentModal = document.getElementById("contentModal");
+  const contentCloseBtn = contentModal.querySelector(".close-btn");
+  const contentCancelBtn = contentModal.querySelector(".btn-cancel");
+  const contentSaveBtn = contentModal.querySelector(".btn-primary");
+
+  if (contentCloseBtn)
+    contentCloseBtn.addEventListener("click", closeContentModal);
+  if (contentCancelBtn)
+    contentCancelBtn.addEventListener("click", closeContentModal);
+  if (contentSaveBtn) contentSaveBtn.addEventListener("click", saveContent);
 };
 
 // Render dữ liệu mặc định khi vừa tải trang
 renderTable(mockData);
+
+// Gắn event listener khi DOM ready
+document.addEventListener("DOMContentLoaded", () => {
+  attachModalListeners();
+
+  // Nút "Lấy nội dung"
+  const fetchBtn = document.querySelector(".btn-primary[type='button']");
+  if (fetchBtn) {
+    fetchBtn.addEventListener("click", fetchContent);
+  }
+});
 
 // --- 4. LOGIC TƯƠNG TÁC GIAO DIỆN DROPDOWN STATUS ---
 const statusWrapper = document.getElementById("custom-status-wrapper");
